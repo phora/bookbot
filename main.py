@@ -5,11 +5,23 @@ def get_book_text(fp):
         return f.read()
 
 def main():
-    book_text = get_book_text("./books/frankenstein.txt")
-    wc = stats.word_count(book_text)
-    cf = stats.char_frequency(book_text)
-    print(f"{wc} words found in the document")
-    print(cf)
+    books = [
+        "./books/frankenstein.txt"
+    ]
+    print("============== BOOKBOT ==============")
+    for book in books:
+        print(f"Analyzing book found at {book}...")
+        book_text = get_book_text(book)
+        wc = stats.word_count(book_text)
+        cf = stats.sort_char_frequency(stats.char_frequency(book_text))
+        print("--------- Word Count ---------")
+        print(f"Found {wc} total words")
+        print("------ Character Count -------")
+        for entry in cf:
+            if not entry['char'].isalpha():
+                continue
+            print(f"{entry['char']}: {entry['num']}")
+    print("================ END ================")
 
 if __name__ == "__main__":
     main()
