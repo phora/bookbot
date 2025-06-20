@@ -1,15 +1,24 @@
+import argparse
+
 import stats
+import sys
 
 def get_book_text(fp):
     with open(fp) as f:
         return f.read()
 
 def main():
-    books = [
-        "./books/frankenstein.txt"
-    ]
+    # TODO: This only exists because the book project wants exit code 1, not 2
+    if len(sys.argv) < 2:
+        print("Usage: python3 main.py <path_to_book>")
+        exit(1)
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('books', nargs="+")
+    args = parser.parse_args()
+
     print("============== BOOKBOT ==============")
-    for book in books:
+    for book in args.books:
         print(f"Analyzing book found at {book}...")
         book_text = get_book_text(book)
         wc = stats.word_count(book_text)
